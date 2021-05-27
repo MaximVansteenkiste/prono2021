@@ -5,7 +5,7 @@ import { MainContext } from "../../App";
 import Card from "../../components/Card";
 import Input from "../../components/Input";
 import StyledButton from "../../components/StyledButton";
-import firebase from "../../firebase";
+import firebase, { db } from "../../firebase";
 
 const Register = () => {
   const { register, handleSubmit, watch } = useForm();
@@ -13,7 +13,7 @@ const Register = () => {
   const history = useHistory();
 
   const onRegister = useCallback(
-    ({ email, password }) => {
+    ({ email, password, username }) => {
       if (watch("password") !== watch("password2")) {
         setNotification({ message: "Wachtwoorden komen niet overeen" });
         return;
@@ -22,12 +22,17 @@ const Register = () => {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           setNotification({
             message: "Nieuw account aangemaakt!",
             type: "success",
           });
-          history.push("/");
+          await db
+            .collection("users")
+            .doc(userCredential.user.uid)
+            .set({ username });
+
+          history.push("/prono");
         })
         .catch((error) => {
           setNotification({ message: "Er liep iets mis" });
@@ -45,18 +50,28 @@ const Register = () => {
         >
           <div className="flex flex-col space-y-2">
             <Input
+              className="w-full"
               type="email"
               placeholder="E-mail"
               required
               {...register("email")}
             ></Input>
             <Input
+              className="w-full"
+              type="text"
+              placeholder="Usernaam"
+              required
+              {...register("username")}
+            ></Input>
+            <Input
+              className="w-full"
               type="password"
               placeholder="Wachtwoord"
               required
               {...register("password")}
             ></Input>
             <Input
+              className="w-full"
               type="password"
               placeholder="Herhaal wachtwoord"
               required

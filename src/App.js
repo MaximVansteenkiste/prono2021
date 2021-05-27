@@ -13,7 +13,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import Calendar from "./pages/Calendar/Calendar";
+import Prono from "./pages/Prono/Prono";
 
 export const sugar = require("sugar");
 sugar.extend();
@@ -77,8 +77,8 @@ const Routes = ({ isLoading }) => {
           <Route path="/register">
             <Register />
           </Route>
-          <PrivateRoute path="/">
-            <Calendar />
+          <PrivateRoute path="/prono">
+            <Prono />
           </PrivateRoute>
         </Switch>
       </Router>
