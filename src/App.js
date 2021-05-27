@@ -68,7 +68,7 @@ const Routes = ({ isLoading }) => {
   }
 
   return (
-    <div className="mx-2 mt-1">
+    <div className="mx-1 md:mx-2 mt-1">
       <Router>
         <Switch>
           <Route path="/login">

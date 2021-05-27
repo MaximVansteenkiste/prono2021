@@ -4,7 +4,7 @@ const Input = ({ className, children, ...props }) => {
       <input
         {...props}
         className={
-          "h-8 rounded-md bg-input outline-none px-2 w-full " + className
+          "h-8 rounded-md bg-input outline-none px-2 " + className
         }
       ></input>
       {children && (
