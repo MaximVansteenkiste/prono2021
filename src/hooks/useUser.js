@@ -1,14 +1,14 @@
-import { useQueryClient } from "react-query";
+import { useState } from "react";
 import firebase from "../firebase";
 
 const useUser = () => {
-  const queryClient = useQueryClient();
+  const [user, setUser] = useState(firebase.auth().currentUser);
 
   firebase.auth().onAuthStateChanged((user) => {
-    queryClient.setQueriesData("user", user);
+    setUser(user);
   });
 
-  return queryClient.getQueryData("user") ?? "loading";
+  return user ?? "loading";
 };
 
 export default useUser;

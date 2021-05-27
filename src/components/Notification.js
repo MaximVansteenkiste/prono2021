@@ -15,7 +15,7 @@ const Notification = ({ notification, duration = 3000 }) => {
         onReveal={() => setTimeout(() => setNotification(), duration)}
       >
         <div
-          className={`text-black px-3 py-1 rounded-lg mx-2 ${
+          className={`text-black px-3 py-1 rounded mx-2 ${
             notification?.type === "success" ? "bg-green-400" : "bg-red-500"
           }`}
           onClick={() => setNotification()}

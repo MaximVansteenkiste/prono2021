@@ -4,7 +4,13 @@ import "firebase/analytics";
 import "firebase/auth";
 
 const firebaseConfig = {
-  
+  apiKey: "AIzaSyCzOhEhSeWzqNxfHgcIFCZIJjdqVFt_f3k",
+  authDomain: "pronostiek2021.firebaseapp.com",
+  projectId: "pronostiek2021",
+  storageBucket: "pronostiek2021.appspot.com",
+  messagingSenderId: "142060530228",
+  appId: "1:142060530228:web:7efd75f02c53c85efa3861",
+  measurementId: "G-ERQDR8XKBJ",
 };
 
 if (!firebase.apps.length) {

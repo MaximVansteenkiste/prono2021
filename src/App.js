@@ -3,14 +3,17 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import useNetwork from "./hooks/useNetwork";
 import Loading from "./components/Loading";
 import Notification from "./components/Notification";
-import SelectGroup from "./components/SelectGroup/SelectGroup";
-import firebase from "./firebase";
-import { getCurrentGroup, setCurrentGroup } from "./localstorage";
-import Login from "./pages/Login/Login";
-import Overview from "./pages/Overview/Overview";
-import People from "./pages/People/People";
 import { ReactQueryDevtools } from "react-query/devtools";
+import Login from "./pages/Login/Login";
 import useUser from "./hooks/useUser";
+import Register from "./pages/Login/Register";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import Calendar from "./pages/Calendar/Calendar";
 
 export const sugar = require("sugar");
 sugar.extend();
@@ -31,11 +34,8 @@ const queryClient = new QueryClient({
 
 function App() {
   const isOnline = useNetwork();
-  const [path, setPath] = useState("");
   const [notification, setNotification] = useState();
-  const user = useUser();
-
-  useEffect(() => window.history.pushState("", "", path), [path]);
+  const [isLoading, setIsLoading] = useState();
 
   useEffect(() => {
     if (!isOnline) {
@@ -49,9 +49,9 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <MainContext.Provider value={{ setPath, user, setNotification }}>
-        <div className="container mx-auto h-full relative">
-          <Pages path={path} setPath={setPath} user={user} />
+      <MainContext.Provider value={{ setNotification, setIsLoading }}>
+        <div className="container mx-auto h-full">
+          <Routes isLoading={isLoading} />
           <Notification notification={notification} />
         </div>
       </MainContext.Provider>
@@ -60,19 +60,52 @@ function App() {
   );
 }
 
-const Pages = ({ path, setPath, user }) => {
-  if (user && user !== "loading") {
-    if (path === "home" || path === "") {
-      return <Overview />;
-    }
+const Routes = ({ isLoading }) => {
+  const user = useUser();
+
+  if (user === "loading" || isLoading) {
+    return <Loading />;
   }
 
-  if (!user) {
-    setPath("login");
-    return <Login />;
-  }
+  return (
+    <div className="mx-2 mt-1">
+      <Router>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
+          </Route>
+          <PrivateRoute path="/">
+            <Calendar />
+          </PrivateRoute>
+        </Switch>
+      </Router>
+    </div>
+  );
+};
 
-  return <Loading />;
+const PrivateRoute = ({ children, ...props }) => {
+  const user = useUser();
+
+  return (
+    <Route
+      {...props}
+      render={({ location }) =>
+        user ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
 };
 
 export default App;
