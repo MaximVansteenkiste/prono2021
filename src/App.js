@@ -12,8 +12,10 @@ import {
   Switch,
   Route,
   Redirect,
+  useHistory,
 } from "react-router-dom";
 import Prono from "./pages/Prono/Prono";
+import Home from "./pages/Home/Home";
 
 export const sugar = require("sugar");
 sugar.extend();
@@ -50,7 +52,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <MainContext.Provider value={{ setNotification, setIsLoading }}>
-        <div className="container mx-auto h-full">
+        <div className="px-2 container mx-auto">
           <Routes isLoading={isLoading} />
           <Notification notification={notification} />
         </div>
@@ -62,13 +64,18 @@ function App() {
 
 const Routes = ({ isLoading }) => {
   const user = useUser();
+  const history = useHistory();
 
   if (user === "loading" || isLoading) {
     return <Loading />;
   }
 
+  if (!user && user !== "loading") {
+    history.push("/login");
+  }
+
   return (
-    <div className="mx-1 md:mx-2 mt-1">
+    <div className="mt-1">
       <Router>
         <Switch>
           <Route path="/login">
@@ -79,6 +86,9 @@ const Routes = ({ isLoading }) => {
           </Route>
           <PrivateRoute path="/prono">
             <Prono />
+          </PrivateRoute>
+          <PrivateRoute path="/">
+            <Home />
           </PrivateRoute>
         </Switch>
       </Router>

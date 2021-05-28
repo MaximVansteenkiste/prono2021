@@ -4,6 +4,7 @@ import Input from "./Input";
 const MatchInput = ({
   match: { homeTeamName, awayTeamName, id, date },
   register,
+  prediction,
 }) => {
   return (
     <Card>
@@ -14,6 +15,7 @@ const MatchInput = ({
           <Input
             type="number"
             className="w-10 text-center mx-1"
+            defaultValue={prediction?.outcomeHome}
             required
             min={0}
             {...register(`${id}.outcomeHome`, { required: true, min: 0 })}
@@ -22,6 +24,7 @@ const MatchInput = ({
           <Input
             type="number"
             className="w-10 text-center mx-1"
+            defaultValue={prediction?.outcomeAway}
             required
             min={0}
             {...register(`${id}.outcomeAway`, { required: true, min: 0 })}

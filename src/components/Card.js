@@ -1,7 +1,7 @@
 const Card = ({ children, title, className = "", header, ...props }) => {
   return (
     <div
-      className={`w-full bg-card rounded-xl p-4 text-left relative ${className}`}
+      className={`max-w-full bg-card rounded-xl p-4 text-left relative ${className}`}
       {...props}
     >
       {header}

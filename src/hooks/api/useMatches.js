@@ -5,8 +5,10 @@ import { db, querySnapshotToData } from "../../firebase";
 
 const useMatches = () => {
   const { setIsLoading } = useContext(MainContext);
-  const { data, isLoading, error } = useQuery("Prono", async () => {
-    return querySnapshotToData(await db.collection("matches").get());
+  const { data, isLoading, error } = useQuery("calendar", async () => {
+    return querySnapshotToData(
+      await db.collection("matches").orderBy("date").get()
+    );
   });
 
   return { matches: data, isLoading, error };
