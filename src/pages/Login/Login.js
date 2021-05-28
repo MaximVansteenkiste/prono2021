@@ -28,12 +28,14 @@ const Login = () => {
         >
           <div className="flex flex-col space-y-2">
             <Input
+              className="w-full"
               type="email"
               placeholder="E-mail"
               required
               {...register("email")}
             ></Input>
             <Input
+              className="w-full"
               type="password"
               placeholder="Wachtwoord"
               required

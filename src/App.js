@@ -71,7 +71,7 @@ const Routes = ({ isLoading }) => {
   }
 
   if (!user && user !== "loading") {
-    history.push("/login");
+    history?.push("/login");
   }
 
   return (
