@@ -14,7 +14,14 @@ const useUpdatePredictions = () => {
         .doc(user.uid)
         .collection("predictions")
         .doc(mId)
-        .set(matches[mId], { merge: true });
+        .set(
+          {
+            outcomeHome: matches[mId].outcomeHome,
+            outcomeAway: matches[mId].outcomeAway,
+            points: -1,
+          },
+          { merge: true }
+        );
     });
     setNotification({ message: "Opgeslagen!", type: "success" });
   });

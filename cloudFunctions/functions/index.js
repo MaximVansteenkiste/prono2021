@@ -1,7 +1,5 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const { firestore } = require("firebase-admin");
-const { db } = require("../../src/firebase");
 admin.initializeApp();
 
 const querySnapshotToData = (qs) => {
@@ -10,38 +8,53 @@ const querySnapshotToData = (qs) => {
   return array;
 };
 
-exports.onUpdateMatch = functions.firestore
-  .document("/matches/{documentId}")
-  .onUpdate(async (snap, context) => {
-    const { outcomeHome, outcomeAway, id } = { ...snap.data(), id: snap.id };
-    const users = querySnapshotToData(
-      await admin.firestore().collection("users").get()
+exports.updateScores = functions.https.onRequest(async (req, res) => {
+  const matches = querySnapshotToData(
+    await admin.firestore().collection("matches").get()
+  );
+  const users = querySnapshotToData(
+    await admin.firestore().collection("users").get()
+  );
+
+  users.forEach(async (u) => {
+    const predictions = querySnapshotToData(
+      await admin
+        .firestore()
+        .collection("users")
+        .doc(u.id)
+        .collection("predictions")
+        .where("points", "<=", 0)
+        .get()
     );
 
-    users.forEach(async (u) => {
-      const predictions = querySnapshotToData(
-        await db.collection("users").doc(u.id).collection("predictions").get()
-      );
+    predictions.forEach((prediction) => {
+      const outcomeHome = matches[prediction.id]?.outcomeHome;
+      const outcomeAway = matches[prediction.id]?.outcomeAway;
+      const predHome = prediction.outcomeHome;
+      const predAway = prediction.outcomeAway;
+
+      let p = 0;
+
       // juise TOTO = 3 punten
       // 1 punt voor juiste aantal doelpunten (per team)
       // 2 bonuspunten indien match volledig juist -> 7 in totaal
-      let predHome = predictions[id].outcomeHome;
-      let predAway = predictions[id].outcomeAway;
-      let p = 0;
-      if (predHome == predAway && outcomeHome == outcomeAway) {
+      if (predHome === predAway && outcomeHome === outcomeAway) {
         p += 3;
-        if (predHome == outcomeHome) p += 4;
+        if (predHome === outcomeHome) p += 4;
       } else {
-        if (predHome == outcomeHome) p += 1;
-        if (predAway == outcomeAway) p += 1;
+        if (predHome === outcomeHome) p += 1;
+        if (predAway === outcomeAway) p += 1;
         if ((predHome - predAway) * (outcomeHome - outcomeAway) > 0) p += 3;
-        if (p == 5) p += 2;
+        if (p === 5) p += 2;
       }
-
+      res.send(`${u.username}: ${p}`);
       admin
         .firestore()
         .collection("users")
         .doc(u.id)
-        .update({ points: u.points + p });
+        .collection("predictions")
+        .doc(prediction.id)
+        .set({ points: p }, { merge: true });
     });
   });
+});
