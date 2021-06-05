@@ -11,9 +11,14 @@ const Prono = () => {
   const { matches } = useMatches();
   const { questions } = useQuestions();
   const { update } = useUpdatePredictions();
-  const { register, handleSubmit, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   const { predictions } = useMatchPredictions();
-
+  console.log(errors);
   return (
     <div className="h-full">
       <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
@@ -62,7 +67,9 @@ const Prono = () => {
                 )
             )}
           <div className="flex justify-center">
-            <StyledButton className="mt-4">Opslaan</StyledButton>
+            <StyledButton className="mt-4" type="submit">
+              Opslaan
+            </StyledButton>
           </div>
         </form>
       </div>

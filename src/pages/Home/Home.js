@@ -14,11 +14,12 @@ const Home = () => {
   return (
     <div className="h-full">
       <div className="px-3 pb-3 pt-2 flex text-2xl justify-between align-middle sticky top-0 bg-background z-10 text-title">
-        <Button to="/prono" className="text-accent">
-          <Link>
+        <Link to="/prono">
+          <Button className="text-accent">
             <CgProfile />
-          </Link>
-        </Button>
+          </Button>
+        </Link>
+
         <div></div>
         <Button className="text-accent">
           <Link>

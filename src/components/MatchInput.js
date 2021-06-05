@@ -18,7 +18,11 @@ const MatchInput = ({
             defaultValue={prediction?.outcomeHome}
             required
             min={0}
-            {...register(`${id}.outcomeHome`, { required: true, min: 0 })}
+            {...register(`${id}.outcomeHome`, {
+              required: true,
+              min: 0,
+              default: prediction?.outcomeHome,
+            })}
           />{" "}
           -{" "}
           <Input
@@ -27,7 +31,11 @@ const MatchInput = ({
             defaultValue={prediction?.outcomeAway}
             required
             min={0}
-            {...register(`${id}.outcomeAway`, { required: true, min: 0 })}
+            {...register(`${id}.outcomeAway`, {
+              required: true,
+              min: 0,
+              default: prediction?.outcomeAway,
+            })}
           />
         </div>
 

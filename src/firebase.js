@@ -28,3 +28,4 @@ export const querySnapshotToData = (qs) => {
 export default firebase;
 export const db = firebase.firestore();
 export const auth = firebase.auth();
+export const functions = firebase.functions();

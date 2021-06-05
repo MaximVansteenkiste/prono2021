@@ -8,13 +8,12 @@ const QuestionInput = ({
 }) => {
   return (
     <Card>
-      <div className="flex justify-between">
+      <div className="flex w-full">
         <div className="text-xl font-bold truncate">{nummer}</div>
-
-        <div className="text-lg font-semibold flex mx-5">
+        <div className="text-lg font-semibold flex mx-5 w-full">
           <Input
-            type="string"
-            className="w-100 text-center mx-1"
+            type="text"
+            className="w-full"
             defaultValue={prediction?.topschutter}
             {...register(`${id}.topschutter`)}
           />

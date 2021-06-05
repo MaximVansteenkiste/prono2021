@@ -5,7 +5,7 @@ import { db, querySnapshotToData } from "../../firebase";
 
 const useQuestions = () => {
   const { setIsLoading } = useContext(MainContext);
-  const { data, isLoading, error } = useQuery("calendar", async () => {
+  const { data, isLoading, error } = useQuery("questions", async () => {
     return querySnapshotToData(
       await db.collection("questions").orderBy("nummer").get()
     );
