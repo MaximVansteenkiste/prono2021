@@ -7,7 +7,7 @@ const MatchInput = ({
   register,
   prediction,
   setValue,
-  canUpdatePrediction,
+  editable
 }) => {
   useEffect(() => {
     if (prediction) {
@@ -31,7 +31,7 @@ const MatchInput = ({
             type="number"
             className="w-10 text-center mx-1"
             defaultValue={prediction?.outcomeHome}
-            disabled={!canUpdatePrediction}
+            disabled={!editable}
             required
             min={0}
             {...register(`${id}.outcomeHome`, {
@@ -44,7 +44,7 @@ const MatchInput = ({
             type="number"
             className="w-10 text-center mx-1"
             defaultValue={prediction?.outcomeAway}
-            disabled={!canUpdatePrediction}
+            disabled={!editable}
             required
             min={0}
             {...register(`${id}.outcomeAway`, {
