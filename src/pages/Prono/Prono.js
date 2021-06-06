@@ -54,6 +54,9 @@ const Prono = () => {
                   />
                 )
             )}
+          <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
+            Varia
+          </div>
           {predictions &&
             questions?.map(
               (q) =>
