@@ -15,10 +15,11 @@ const Prono = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm();
   const { predictions } = useMatchPredictions();
-  console.log(errors);
+
   return (
     <div className="h-full">
       <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
@@ -43,17 +44,16 @@ const Prono = () => {
           */
         >
           {predictions &&
-            matches?.map(
-              (m) =>
-                m.isOpen !== false && (
-                  <MatchInput
-                    key={m.id}
-                    match={m}
-                    prediction={predictions.find((p) => p.id === m.id)}
-                    register={register}
-                  />
-                )
-            )}
+            matches?.map((m) => (
+              <MatchInput
+                key={m.id}
+                match={m}
+                prediction={predictions.find((p) => p.id === m.id)}
+                register={register}
+                setValue={setValue}
+                editable={m.canUpdatePrediction}
+              />
+            ))}
           <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
             Varia
           </div>

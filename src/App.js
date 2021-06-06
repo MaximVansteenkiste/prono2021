@@ -16,7 +16,7 @@ import {
 } from "react-router-dom";
 import Prono from "./pages/Prono/Prono";
 import Home from "./pages/Home/Home";
-import firebase, { functions } from "./firebase";
+import Admin from "./pages/Admin/Admin";
 
 export const sugar = require("sugar");
 sugar.extend();
@@ -88,19 +88,8 @@ const Routes = ({ isLoading }) => {
           <PrivateRoute path="/prono">
             <Prono />
           </PrivateRoute>
-          <PrivateRoute path="/update">
-            <div>
-              <button
-                onClick={() =>
-                  functions
-                    .httpsCallable("updateScores")
-                    .call()
-                    .then((r) => console.log(r))
-                }
-              >
-                Update scores
-              </button>
-            </div>
+          <PrivateRoute path="/admin">
+            <Admin />
           </PrivateRoute>
           <PrivateRoute path="/">
             <Home />

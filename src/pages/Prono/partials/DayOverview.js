@@ -23,37 +23,11 @@ const DayOverview = ({ dateLabel, matches }) => {
   );
 };
 
-const EditHeader = ({ contact }) => {
-  const [contactEditOpen, setContactEditOpen] = useState();
-
+const Match = ({ match: { id, hometeam, awayteam, score, date, time } }) => {
   return (
-    <>
-      <div className="absolute top-1 right-2">
-        <Button onClick={() => setContactEditOpen(true)}>
-          <AiFillEdit className="text-accent text-xl" />
-        </Button>
-      </div>
-      {contactEditOpen && (
-        <AddContact
-          dismiss={() => setContactEditOpen(false)}
-          contact={contact}
-        />
-      )}
-    </>
-  );
-};
-
-const Match = ({ match: { id, hometeam, awayteam, score date} }) => {
-
-  return (
-    <Button onClick={() => setExpanded((prev) => !prev)}>
-      <Card
-        title={`19:00`}
-        header={expanded && !!id && <EditHeader contact={contact} />}
-      >
-        <div></div>
-      </Card>
-    </Button>
+    <Card title={time}>
+      <div></div>
+    </Card>
   );
 };
 
