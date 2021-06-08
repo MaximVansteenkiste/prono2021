@@ -1,7 +1,9 @@
 import { db, querySnapshotToData } from "../../../firebase";
 
 export const updateScores = async () => {
-  const matches = querySnapshotToData(await db.collection("matches").get());
+  const matches = querySnapshotToData(
+    await db.collection("matches").where("outcomeHome", ">=", 0).get()
+  );
   const users = querySnapshotToData(await db.collection("users").get());
 
   return users?.forEach(async (u) => {
@@ -16,7 +18,7 @@ export const updateScores = async () => {
       const outcomeAway = matches[prediction.id]?.outcomeAway;
       const predHome = prediction.outcomeHome;
       const predAway = prediction.outcomeAway;
-
+      console.log({ outcomeHome, outcomeAway, predHome, predAway });
       let p = 0;
 
       // juise TOTO = 3 punten
@@ -38,8 +40,7 @@ export const updateScores = async () => {
         .doc(prediction.id)
         .set({ points: p }, { merge: true });
     });
-    
-    console.log(`${u.username}: ${totalScore}`);
+
     db.collection("users")
       .doc(u.id)
       .set({ points: totalScore }, { merge: true });

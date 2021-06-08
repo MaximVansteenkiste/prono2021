@@ -7,7 +7,7 @@ const MatchInput = ({
   register,
   prediction,
   setValue,
-  editable
+  editable,
 }) => {
   useEffect(() => {
     if (prediction) {
@@ -58,6 +58,7 @@ const MatchInput = ({
           {awayTeamName}
         </div>
       </div>
+      {prediction?.points >= 0 && <div className="flex justify-center text-accent mt-2">{prediction.points} p</div>}
     </Card>
   );
 };
