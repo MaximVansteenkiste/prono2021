@@ -14,9 +14,9 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
-import Prono from "./pages/Prono/Prono";
 import Home from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
+import PronoContainer from "./pages/Prono/PronoContainer";
 
 export const sugar = require("sugar");
 sugar.extend();
@@ -55,8 +55,8 @@ function App() {
       <MainContext.Provider value={{ setNotification, setIsLoading }}>
         <div className="px-2 container mx-auto">
           <Routes isLoading={isLoading} />
-          <Notification notification={notification} />
         </div>
+        <Notification notification={notification} />
       </MainContext.Provider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
@@ -86,7 +86,7 @@ const Routes = ({ isLoading }) => {
             <Register />
           </Route>
           <PrivateRoute path="/prono">
-            <Prono />
+            <PronoContainer />
           </PrivateRoute>
           {user?.isAdmin && (
             <PrivateRoute path="/admin">

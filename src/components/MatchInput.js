@@ -1,21 +1,12 @@
-import { useEffect } from "react";
 import Card from "./Card";
 import Input from "./Input";
 
 const MatchInput = ({
   match: { homeTeamName, awayTeamName, id, date },
-  register,
+  onChange,
   prediction,
-  setValue,
   editable,
 }) => {
-  useEffect(() => {
-    if (prediction) {
-      setValue(`${id}.outcomeHome`, prediction.outcomeHome);
-      setValue(`${id}.outcomeAway`, prediction.outcomeAway);
-    }
-  }, []);
-
   return (
     <Card>
       <div className="grid grid-cols-3">
@@ -34,10 +25,8 @@ const MatchInput = ({
             disabled={!editable}
             required
             min={0}
-            {...register(`${id}.outcomeHome`, {
-              required: true,
-              min: 0,
-            })}
+            onChange={(e) => onChange(e, { outcomeHome: e.target.value })}
+            name={id}
           />{" "}
           -{" "}
           <Input
@@ -47,10 +36,8 @@ const MatchInput = ({
             disabled={!editable}
             required
             min={0}
-            {...register(`${id}.outcomeAway`, {
-              required: true,
-              min: 0,
-            })}
+            onChange={(e) => onChange(e, { outcomeAway: e.target.value })}
+            name={id}
           />
         </div>
 
@@ -58,7 +45,11 @@ const MatchInput = ({
           {awayTeamName}
         </div>
       </div>
-      {prediction?.points >= 0 && <div className="flex justify-center text-accent mt-2">{prediction.points} p</div>}
+      {prediction?.points >= 0 && (
+        <div className="flex justify-center text-accent mt-2">
+          {prediction.points} p
+        </div>
+      )}
     </Card>
   );
 };

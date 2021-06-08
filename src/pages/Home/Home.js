@@ -1,16 +1,20 @@
-import { useForm } from "react-hook-form";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
-import useMatches from "../../hooks/api/useMatches";
-import useUpdatePredictions from "../../hooks/api/useUpdatePredictions";
 import useLeaderBoard from "../../hooks/api/useLeaderBoard";
 import { CgProfile, CgCalendarDates } from "react-icons/cg";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import firebase from "../../firebase";
+import useUser from "../../hooks/useUser";
 const Home = () => {
   const { leaderboard } = useLeaderBoard();
-
+  const user = useUser();
+  const plaats =
+    leaderboard && leaderboard.findIndex((u) => u.id === user.uid) + 1;
+  const plaatsPostScript = () => {
+    if (plaats === 1 || plaats === 8 || plaats >= 20) {
+      return "ste";
+    }
+    return "de";
+  };
   return (
     <div className="h-full">
       <div className="px-3 pb-3 pt-2 flex text-2xl justify-between align-middle sticky top-0 bg-background z-10 text-title">
@@ -21,22 +25,20 @@ const Home = () => {
         </Link>
 
         <div></div>
-        <Button className="text-accent">
-          <Link>
-            <CgCalendarDates />
-          </Link>
-        </Button>
+        <div></div>
       </div>
       <div className="grid grid-cols-2 space-x-2">
         <Card>
           <div className="grid place-items-center">
-            <div className="font-bold text-2xl">2</div>
+            <div className="font-bold text-2xl">{user.points ?? 0}</div>
             <div>punten</div>
           </div>
         </Card>
         <Card>
           <div className="grid place-items-center">
-            <div className="font-bold text-2xl">2de</div>
+            <div className="font-bold text-2xl">
+              {plaats ? `${plaats}${plaatsPostScript()}` : "..."}
+            </div>
             <div>plaats</div>
           </div>
         </Card>

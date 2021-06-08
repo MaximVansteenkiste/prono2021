@@ -1,6 +1,6 @@
 const Input = ({ className, children, ...props }) => {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <input
         {...props}
         className={

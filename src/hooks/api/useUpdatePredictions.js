@@ -7,21 +7,33 @@ import useUser from "../useUser";
 const useUpdatePredictions = () => {
   const user = useUser();
   const { setNotification } = useContext(MainContext);
-  const { mutate } = useMutation(({ matches }) => {
-    Object.keys(matches).forEach(async (mId) => {
-      await db
+  const { mutate } = useMutation((data) => {
+    Object.keys(data).forEach(async (id) => {
+      if (id.includes("question")) {
+        return await db
+          .collection("users")
+          .doc(user.uid)
+          .collection("predictions")
+          .doc(id)
+          .set(
+            {
+              answer: data[id],
+              type: "question",
+              points: -1,
+            },
+            { merge: true }
+          );
+      }
+      return await db
         .collection("users")
         .doc(user.uid)
         .collection("predictions")
-        .doc(mId)
-        .set(
-          {
-            outcomeHome: matches[mId].outcomeHome,
-            outcomeAway: matches[mId].outcomeAway,
-            points: -1,
-          },
-          { merge: true }
-        );
+        .doc(id)
+        .set({
+          outcomeHome: data[id].outcomeHome,
+          outcomeAway: data[id].outcomeAway,
+          points: -1,
+        });
     });
     setNotification({ message: "Opgeslagen!", type: "success" });
   });
