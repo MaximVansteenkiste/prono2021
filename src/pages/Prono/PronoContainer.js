@@ -22,7 +22,7 @@ const PronoContainer = () => {
   }, [predictions]);
 
   if (!matches || !questions || !predictions || defaultValues === {}) {
-    return <Loading />;
+    return <></>;
   }
 
   return (
