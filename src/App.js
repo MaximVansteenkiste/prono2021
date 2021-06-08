@@ -88,9 +88,11 @@ const Routes = ({ isLoading }) => {
           <PrivateRoute path="/prono">
             <Prono />
           </PrivateRoute>
-          <PrivateRoute path="/admin">
-            <Admin />
-          </PrivateRoute>
+          {user.isAdmin && (
+            <PrivateRoute path="/admin">
+              <Admin />
+            </PrivateRoute>
+          )}
           <PrivateRoute path="/">
             <Home />
           </PrivateRoute>
