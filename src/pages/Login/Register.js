@@ -30,7 +30,7 @@ const Register = () => {
           await db
             .collection("users")
             .doc(userCredential.user.uid)
-            .set({ username });
+            .set({ username, points:0 });
 
           history.push("/prono");
         })
