@@ -18,7 +18,6 @@ export const updateScores = async () => {
       const outcomeAway = matches[prediction.id]?.outcomeAway;
       const predHome = prediction.outcomeHome;
       const predAway = prediction.outcomeAway;
-      console.log({ outcomeHome, outcomeAway, predHome, predAway });
       let p = 0;
 
       // juise TOTO = 3 punten
@@ -40,7 +39,7 @@ export const updateScores = async () => {
         .doc(prediction.id)
         .set({ points: p }, { merge: true });
     });
-
+console.log(`${u.username}: ${totalScore}p`)
     db.collection("users")
       .doc(u.id)
       .set({ points: totalScore }, { merge: true });

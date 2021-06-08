@@ -20,10 +20,13 @@ const Admin = () => {
   }, []);
   return (
     <div className="flex flex-col">
+      <div>Upload matches</div>
       <CSVReader onFileLoaded={(data) => onUpload(data)} />
-      <button className="mt-5" onClick={updateScores}>
-        Update scores
-      </button>
+      <div className="flex justify-center mt-5"> 
+        <StyledButton className="mt-5" onClick={updateScores}>
+          Update scores
+        </StyledButton>
+      </div>
     </div>
   );
 };

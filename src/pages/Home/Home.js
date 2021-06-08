@@ -49,7 +49,7 @@ const Home = () => {
               <div className="flex-grow font-bold text-white">{`${i + 1}. ${
                 u.username
               }`}</div>
-              <div className="font-semibold">{`${u.points} punten`}</div>
+              <div className="font-semibold">{`${u.points}p`}</div>
             </div>
           </Card>
         ))}
