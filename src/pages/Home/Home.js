@@ -1,9 +1,10 @@
 import Button from "../../components/Button";
 import Card from "../../components/Card";
 import useLeaderBoard from "../../hooks/api/useLeaderBoard";
-import { CgProfile, CgCalendarDates } from "react-icons/cg";
+import { CgProfile, CgCalendarDates, CgInfo } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import useUser from "../../hooks/useUser";
+
 const Home = () => {
   const { leaderboard } = useLeaderBoard();
   const user = useUser();
@@ -24,8 +25,11 @@ const Home = () => {
           </Button>
         </Link>
 
-        <div></div>
-        <div></div>
+        <Link to="/info">
+          <Button className="text-accent">
+            <CgInfo />
+          </Button>
+        </Link>
       </div>
       <div className="grid grid-cols-2 space-x-2">
         <Card>

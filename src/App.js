@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
+import Info from "./pages/Info/Info";
 import PronoContainer from "./pages/Prono/PronoContainer";
 
 export const sugar = require("sugar");
@@ -84,6 +85,9 @@ const Routes = ({ isLoading }) => {
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/info">
+            <Info />
           </Route>
           <PrivateRoute path="/prono">
             <PronoContainer />
