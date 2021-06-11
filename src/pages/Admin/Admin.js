@@ -14,9 +14,9 @@ const Admin = () => {
         awayTeamName: row[4],
         group: row[5],
         place: row[6],
-        outcomeHome: "-1",
-        outcomeAway: "-1",
-        canUpdatePrediction: true,
+        outcomeHome: row[7],
+        outcomeAway: row[8],
+        // canUpdatePrediction: false,
       });
     });
   }, []);

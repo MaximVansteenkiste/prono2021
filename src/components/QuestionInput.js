@@ -5,6 +5,7 @@ const QuestionInput = ({
   question: { question, id },
   onChange,
   prediction,
+  editable
 }) => {
   return (
     <Card>
@@ -20,6 +21,7 @@ const QuestionInput = ({
             onChange={onChange}
             required
             name={`question${id}`}
+            disabled={!editable}
           />
         </div>
       </div>

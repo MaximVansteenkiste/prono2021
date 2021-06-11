@@ -57,11 +57,11 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
                 onChange={onChange}
               />
             ))}
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <StyledButton className="mt-4" type="submit">
               Opslaan
             </StyledButton>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>
