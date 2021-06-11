@@ -14,6 +14,8 @@ const Admin = () => {
         awayTeamName: row[4],
         group: row[5],
         place: row[6],
+        outcomeHome: "-1",
+        outcomeAway: "-1",
         canUpdatePrediction: true,
       });
     });
@@ -22,7 +24,7 @@ const Admin = () => {
     <div className="flex flex-col">
       <div>Upload matches</div>
       <CSVReader onFileLoaded={(data) => onUpload(data)} />
-      <div className="flex justify-center mt-5"> 
+      <div className="flex justify-center mt-5">
         <StyledButton className="mt-5" onClick={updateScores}>
           Update scores
         </StyledButton>

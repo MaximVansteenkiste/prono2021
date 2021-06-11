@@ -2,7 +2,7 @@ import { db, querySnapshotToData } from "../../../firebase";
 
 export const updateScores = async () => {
   const matches = querySnapshotToData(
-    await db.collection("matches").where("outcomeHome", ">=", 0).get()
+    await db.collection("matches").where("outcomeHome", "!=", "-1").get()
   );
   const users = querySnapshotToData(await db.collection("users").get());
 
@@ -10,7 +10,12 @@ export const updateScores = async () => {
     let totalScore = 0;
 
     const predictions = querySnapshotToData(
-      await db.collection("users").doc(u.id).collection("predictions").get()
+      await db
+        .collection("users")
+        .doc(u.id)
+        .collection("predictions")
+        .where("points", ">", -1)
+        .get()
     );
 
     predictions?.forEach((prediction) => {
@@ -41,11 +46,9 @@ export const updateScores = async () => {
         .doc(u.id)
         .collection("predictions")
         .doc(prediction.id)
-        .set({ points: p }, { merge: true });
+        .set({ points: -1 }, { merge: true });
     });
     console.log(`${u.username}: ${totalScore}p`);
-    db.collection("users")
-      .doc(u.id)
-      .set({ points: totalScore }, { merge: true });
+    db.collection("users").doc(u.id).set({ points: 0 }, { merge: true });
   });
 };
