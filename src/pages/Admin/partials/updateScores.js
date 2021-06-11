@@ -10,12 +10,7 @@ export const updateScores = async () => {
     let totalScore = 0;
 
     const predictions = querySnapshotToData(
-      await db
-        .collection("users")
-        .doc(u.id)
-        .collection("predictions")
-        .where("points", "==", -1)
-        .get()
+      await db.collection("users").doc(u.id).collection("predictions").get()
     );
 
     predictions?.forEach((prediction) => {
@@ -40,10 +35,12 @@ export const updateScores = async () => {
             if ((predHome - predAway) * (outcomeHome - outcomeAway) > 0) p += 3;
             if (p === 5) p += 2;
           }
+        } else {
+          p = -1;
         }
       }
 
-      totalScore += p;
+      totalScore += p > -1 ? p : 0;
       db.collection("users")
         .doc(u.id)
         .collection("predictions")
