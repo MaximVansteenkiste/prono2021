@@ -17,10 +17,10 @@ export const updateScores = async () => {
       let p = 0;
       if (!prediction.id.includes("question")) {
         const match = matches.find((m) => m.id === prediction.id);
-        const outcomeHome = match?.outcomeHome;
-        const outcomeAway = match?.outcomeAway;
-        const predHome = prediction.outcomeHome;
-        const predAway = prediction.outcomeAway;
+        const outcomeHome = Number(match?.outcomeHome);
+        const outcomeAway = Number(match?.outcomeAway);
+        const predHome = Number(prediction.outcomeHome);
+        const predAway = Number(prediction.outcomeAway);
 
         // juise TOTO = 3 punten
         // 1 punt voor juiste aantal doelpunten (per team)
