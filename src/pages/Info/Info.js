@@ -38,7 +38,6 @@ const Info = () => {
       <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
         Puntenverdeling Knockoutfase
       </div>
-      TBD - kunnen we nog samen bespreken, maar dit is mijn voorstel:
       <ul className="circle">
         <li>
           {" "}
@@ -74,12 +73,7 @@ const Info = () => {
       </div>
       <ul className="circle">
         <li> • 15 punten: juiste winnaar (zoals hierboven dus) </li>
-        <li>
-          {" "}
-          • 10 punten: topschutter - own goal - land meeste doelpunten voor -
-          land meeste doelpunten tegen - land meeste kaarten
-        </li>
-        <li> • 5 punten: de rest</li>
+        <li> • 10 punten: de rest</li>
       </ul>
     </div>
   );
