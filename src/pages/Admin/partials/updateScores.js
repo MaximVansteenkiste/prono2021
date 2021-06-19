@@ -10,7 +10,6 @@ export const updateScores = async () => {
 
   return users?.forEach(async (u) => {
     let totalScore = 0;
-    console.log(u);
 
     const predictions = querySnapshotToData(
       await db.collection("users").doc(u.id).collection("predictions").get()
@@ -21,7 +20,6 @@ export const updateScores = async () => {
       if (!prediction.id.includes("question")) {
         //if (prediction?.points === "-1") {
         if (prediction.id.startsWith("H") || prediction.id.startsWith("F")) {
-          console.log(prediction.id);
           const match = matches.find((m) => m.id === prediction.id);
           const outcomeHome = Number(match?.outcomeHome);
           const outcomeAway = Number(match?.outcomeAway);

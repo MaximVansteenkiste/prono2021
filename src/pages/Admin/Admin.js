@@ -3,6 +3,7 @@ import CSVReader from "react-csv-reader";
 import StyledButton from "../../components/StyledButton";
 import { auth, db } from "../../firebase";
 import { updateScores } from "./partials/updateScores";
+import { updateGroups } from "./partials/updateGroups";
 
 const Admin = () => {
   const onUpload = useCallback((data) => {
@@ -27,6 +28,11 @@ const Admin = () => {
       <div className="flex justify-center mt-5">
         <StyledButton className="mt-5" onClick={updateScores}>
           Update scores
+        </StyledButton>
+      </div>
+      <div className="flex justify-center mt-5">
+        <StyledButton className="mt-5" onClick={updateGroups}>
+          Update groups
         </StyledButton>
       </div>
     </div>
