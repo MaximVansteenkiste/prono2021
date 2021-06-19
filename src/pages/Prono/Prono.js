@@ -4,13 +4,14 @@ import StyledButton from "../../components/StyledButton";
 import useUpdatePredictions from "../../hooks/api/useUpdatePredictions";
 import { useHistory } from "react-router";
 import { useCallback, useState } from "react";
+import KnockOut from "./partials/KnockOut";
 
 const Prono = ({ predictions, matches, questions, defaultValues }) => {
   const history = useHistory();
 
   const { update } = useUpdatePredictions();
   const [form, setForm] = useState(defaultValues);
-
+  const [predictionsOpen, setPredictionsOpen] = useState();
   const onChange = useCallback((e, data) => {
     setForm((prev) => ({
       ...prev,
@@ -22,9 +23,12 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
 
   return (
     <div className="h-full">
-      <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
+      <button
+        className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10"
+        onClick={() => setPredictionsOpen((prev) => !prev)}
+      >
         Mijn voorspellingen
-      </div>
+      </button>
       <div className="px-2 pb-5">
         <form
           className="flex flex-col space-y-2"
@@ -34,6 +38,7 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
           }}
         >
           {predictions &&
+            predictionsOpen &&
             matches?.map((m) => (
               <MatchInput
                 key={m.id + "match"}
@@ -43,11 +48,14 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
                 editable={m.canUpdatePrediction}
               />
             ))}
-          <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
-            Varia
-          </div>
+          {predictionsOpen && (
+            <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
+              Varia
+            </div>
+          )}
           {questions &&
             predictions &&
+            predictionsOpen &&
             questions.map((q) => (
               <QuestionInput
                 key={q.id}
@@ -57,6 +65,12 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
                 onChange={onChange}
               />
             ))}
+          <KnockOut
+            matches={matches}
+            predictions={predictions}
+            onChange={onChange}
+            form={form}
+          />
           {/* <div className="flex justify-center">
             <StyledButton className="mt-4" type="submit">
               Opslaan

@@ -18,7 +18,7 @@ const PronoContainer = () => {
         [id]: answer ?? { ...rest },
       };
     });
-    return values;
+    return [];
   }, [predictions]);
 
   if (!matches || !questions || !predictions || defaultValues === {}) {

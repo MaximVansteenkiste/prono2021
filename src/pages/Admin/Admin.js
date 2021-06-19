@@ -8,14 +8,10 @@ const Admin = () => {
   const onUpload = useCallback((data) => {
     data.forEach((row) => {
       db.collection("matches").doc(row[0]).set({
-        date: row[1],
-        time: row[2],
-        homeTeamName: row[3],
-        awayTeamName: row[4],
-        group: row[5],
-        place: row[6],
-        outcomeHome: row[7],
-        outcomeAway: row[8],
+        homeTeamName: row[1],
+        awayTeamName: row[2],
+        outcomeHome: row[3],
+        outcomeAway: row[4],
         // canUpdatePrediction: false,
       });
     });
