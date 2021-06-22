@@ -12,6 +12,7 @@ const Admin = () => {
         awayTeamName: row[2],
         outcomeHome: row[3],
         outcomeAway: row[4],
+        winner: "",
         // canUpdatePrediction: false,
       });
     });
