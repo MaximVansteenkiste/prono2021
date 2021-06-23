@@ -59,7 +59,9 @@ const MatchInput = ({
                 type="radio"
                 name={id}
                 onClick={(e) => onCheckBox(e, "home")}
-                defaultChecked={winner === "home"}
+                defaultChecked={
+                  winner === "home" || prediction?.winner === "home"
+                }
                 disabled={!editable}
                 required
               />
@@ -108,7 +110,9 @@ const MatchInput = ({
                 type="radio"
                 name={id}
                 onClick={(e) => onCheckBox(e, "away")}
-                defaultChecked={winner === "away"}
+                defaultChecked={
+                  winner === "away" || prediction?.winner === "away"
+                }
                 disabled={!editable}
                 required
               />

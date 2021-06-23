@@ -29,22 +29,22 @@ const winner = ({
   }
   return winner === "home" ? homeTeamName : awayTeamName;
 };
-
 const KnockOut = ({ matches, predictions }) => {
   const [currentEditIndex, setCurrentEditIndex] = useState(0);
   const [currentEditCode, setCurrentEditCode] = useState("A");
-  const [myFinals, setMyFinals] = useState(
-    matches.filter(
+
+  const [myFinals, setMyFinals] = useState([
+    ...matches.filter(
       (m) =>
         m.id.charAt(0) === "A" ||
         ((m.id.charAt(0) === "K" ||
           m.id.charAt(0) === "H" ||
           m.id.charAt(0) === "F") &&
           predictions.find((p) => p.id === m.id))
-    )
-  );
-  const history = useHistory();
+    ),
+  ]);
 
+  const history = useHistory();
   const { update } = useUpdatePredictions();
 
   const updateFinals = useCallback(
@@ -88,6 +88,13 @@ const KnockOut = ({ matches, predictions }) => {
           nextFinal.homeTeamName = nextFinal.teams[sortedTeamCodes[0]]?.name;
           nextFinal.awayTeamName = nextFinal.teams[sortedTeamCodes[1]]?.name;
         }
+
+        if (
+          currentFinal.outcomeHome === currentFinal.outcomeAway &&
+          !currentFinal.winner
+        ) {
+          currentFinal.winner = "home";
+        }
       }
       setMyFinals((prev) => {
         const prevCopy = [...prev];
@@ -128,7 +135,6 @@ const KnockOut = ({ matches, predictions }) => {
     },
     [myFinals, updateFinals]
   );
-  console.log({ currentEditCode, currentEditIndex });
 
   return (
     <form
@@ -175,13 +181,14 @@ const KnockOut = ({ matches, predictions }) => {
         title="Finale"
         setNextRound={() => setCurrentEditCode((prev) => nextRound(prev))}
         currentEditIndex={currentEditIndex}
+        currentEditCode={currentEditCode}
         setCurrentEditIndex={setCurrentEditIndex}
       />
       <div className="flex justify-center">
         <StyledButton
           className="mt-4"
           type="submit"
-          disabled={myFinals.length !== 16}
+          disabled={myFinals.length !== 15}
         >
           Opslaan
         </StyledButton>
@@ -212,9 +219,12 @@ const Finals = ({
             prediction={predictions.find((p) => p.id === m.id)}
             onChange={(e, data) => onChange(e, data, m.id, i)}
             editable={
-              (currentEditCode === m.id.charAt(0) &&
-                (currentEditIndex === i || currentEditIndex + 1 === i)) ||
-              m.canUpdatePrediction
+              currentEditCode === m.id.charAt(0) &&
+              (currentEditIndex === i || currentEditIndex + 1 === i) &&
+              Boolean(
+                predictions.find((p) => p.id === m.id)?.canUpdatePrediction ??
+                  true
+              )
             }
             isKnockout={true}
           />

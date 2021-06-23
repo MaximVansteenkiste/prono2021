@@ -21,6 +21,7 @@ const useUpdatePredictions = () => {
           awayTeamName: data.find((m) => m.id === match.id).awayTeamName,
           winner: data.find((m) => m.id === match.id).winner ?? "",
           points: -1,
+          canUpdatePrediction: false,
         });
     });
     setNotification({ message: "Opgeslagen!", type: "success" });

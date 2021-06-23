@@ -2,10 +2,13 @@ import MatchInput from "../../components/MatchInput";
 import QuestionInput from "../../components/QuestionInput";
 import { useCallback, useState } from "react";
 import KnockOut from "./partials/KnockOut";
+import { Link } from "react-router-dom";
+import Button from "../../components/Button";
+import { CgArrowLeftO } from "react-icons/cg";
 
 const Prono = ({ predictions, matches, questions, defaultValues }) => {
   const [form, setForm] = useState(defaultValues);
-  const [predictionsOpen, setPredictionsOpen] = useState(true);
+  const [predictionsOpen, setPredictionsOpen] = useState(false);
   const onChange = useCallback((e, data) => {
     setForm((prev) => ({
       ...prev,
@@ -17,8 +20,15 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
 
   return (
     <div className="h-full">
+      <div className="px-3 pb-3 pt-2 flex text-2xl justify-between align-middle sticky top-0 bg-background z-10 text-title">
+        <Link to="/home">
+          <Button className="text-accent">
+            <CgArrowLeftO />
+          </Button>
+        </Link>
+      </div>
       <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
-        Mijn voorspellingen
+        Voorspellingen
       </div>
       <div className="px-2 pb-5 flex flex-col space-y-2">
         <button
@@ -60,14 +70,12 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
               onChange={onChange}
             />
           ))}
-        {false && (
-          <KnockOut
-            matches={matches}
-            predictions={predictions}
-            onChange={onChange}
-            form={form}
-          />
-        )}
+        <KnockOut
+          matches={matches}
+          predictions={predictions}
+          onChange={onChange}
+          form={form}
+        />
       </div>
     </div>
   );
