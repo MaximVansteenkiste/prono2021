@@ -4,9 +4,7 @@ export const updateScores = async () => {
   const matches = querySnapshotToData(
     await db.collection("matches").where("outcomeHome", "!=", "-1").get()
   );
-  const users = querySnapshotToData(
-    await db.collection("users").where("username", "==", "test").get()
-  );
+  const users = querySnapshotToData(await db.collection("users").get());
 
   return users?.forEach(async (u) => {
     let totalScore = 0;
@@ -18,7 +16,6 @@ export const updateScores = async () => {
     predictions?.forEach((prediction) => {
       let p = 0;
       if (!prediction.id.includes("question")) {
-        //if (prediction?.points === "-1") {
         if (
           prediction.id.startsWith("H") ||
           prediction.id.startsWith("F") ||
@@ -31,29 +28,37 @@ export const updateScores = async () => {
           const predHome = Number(prediction.outcomeHome);
           const predAway = Number(prediction.outcomeAway);
 
-          if (match?.awayTeamName === prediction?.awayTeamName) {
-            p +=
-              2 * match.id.startsWith("K") +
-              4 * match.id.startsWith("H") +
-              8 * match.id.startsWith("F");
-          }
-          if (match?.homeTeamName === prediction?.homeTeamName) {
-            p +=
-              2 * match.id.startsWith("K") +
-              4 * match.id.startsWith("H") +
-              8 * match.id.startsWith("F");
-          }
-
-          if (match.id.startsWith("F")) {
-            if (match?.winner === prediction?.winner) {
-              p += 10;
-            }
-          }
-
           // juise TOTO = 4 punten
           // 2 punt voor juiste aantal doelpunten (per team)
           // 2 bonuspunten indien match volledig juist -> 10 in totaal
           if (match) {
+            if (match?.awayTeamName === prediction?.awayTeamName) {
+              p +=
+                2 * match.id.startsWith("K") +
+                4 * match.id.startsWith("H") +
+                8 * match.id.startsWith("F");
+            }
+            if (match?.homeTeamName === prediction?.homeTeamName) {
+              p +=
+                2 * match.id.startsWith("K") +
+                4 * match.id.startsWith("H") +
+                8 * match.id.startsWith("F");
+            }
+
+            if (match.id.startsWith("F")) {
+              if (outcomeHome > outcomeAway || match?.winner === "home") {
+                if (predHome > predAway || prediction.winner === "home") {
+                  p += 10;
+                }
+              } else if (
+                outcomeHome < outcomeAway ||
+                match?.winner === "away"
+              ) {
+                if (predHome < predAway || prediction.winner === "away") {
+                  p += 10;
+                }
+              }
+            }
             if (predHome === predAway && outcomeHome === outcomeAway) {
               p += 4;
               if (predHome === outcomeHome) p += 6;
@@ -73,15 +78,15 @@ export const updateScores = async () => {
       }
 
       totalScore += p > -1 ? p : 0;
-      // db.collection("users")
-      //   .doc(u.id)
-      //   .collection("predictions")
-      //   .doc(prediction.id)
-      //   .set({ points: p }, { merge: true });
+      db.collection("users")
+        .doc(u.id)
+        .collection("predictions")
+        .doc(prediction.id)
+        .set({ points: p }, { merge: true });
     });
     console.log(`${u.username}: ${totalScore}p`);
-    // db.collection("users")
-    //   .doc(u.id)
-    //   .set({ points: totalScore }, { merge: true });
+    db.collection("users")
+      .doc(u.id)
+      .set({ points: totalScore }, { merge: true });
   });
 };
