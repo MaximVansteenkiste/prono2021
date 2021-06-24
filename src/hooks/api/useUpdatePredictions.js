@@ -8,31 +8,20 @@ const useUpdatePredictions = () => {
   const user = useUser();
   const { setNotification } = useContext(MainContext);
   const { mutate } = useMutation((data) => {
-    Object.keys(data).forEach(async (id) => {
-      if (id.includes("question")) {
-        return await db
-          .collection("users")
-          .doc(user.uid)
-          .collection("predictions")
-          .doc(id)
-          .set(
-            {
-              answer: data[id],
-              type: "question",
-              points: -1,
-            },
-            { merge: true }
-          );
-      }
+    data.forEach(async (match) => {
       return await db
         .collection("users")
         .doc(user.uid)
         .collection("predictions")
-        .doc(id)
+        .doc(match.id)
         .set({
-          outcomeHome: data[id].outcomeHome,
-          outcomeAway: data[id].outcomeAway,
+          outcomeHome: data.find((m) => m.id === match.id).outcomeHome ?? "",
+          outcomeAway: data.find((m) => m.id === match.id).outcomeAway ?? "",
+          homeTeamName: data.find((m) => m.id === match.id).homeTeamName,
+          awayTeamName: data.find((m) => m.id === match.id).awayTeamName,
+          winner: data.find((m) => m.id === match.id).winner ?? "",
           points: -1,
+          canUpdatePrediction: false,
         });
     });
     setNotification({ message: "Opgeslagen!", type: "success" });

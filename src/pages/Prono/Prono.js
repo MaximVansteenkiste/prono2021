@@ -1,16 +1,14 @@
 import MatchInput from "../../components/MatchInput";
 import QuestionInput from "../../components/QuestionInput";
-import StyledButton from "../../components/StyledButton";
-import useUpdatePredictions from "../../hooks/api/useUpdatePredictions";
-import { useHistory } from "react-router";
 import { useCallback, useState } from "react";
+import KnockOut from "./partials/KnockOut";
+import { Link } from "react-router-dom";
+import Button from "../../components/Button";
+import { CgArrowLeftO } from "react-icons/cg";
 
 const Prono = ({ predictions, matches, questions, defaultValues }) => {
-  const history = useHistory();
-
-  const { update } = useUpdatePredictions();
   const [form, setForm] = useState(defaultValues);
-
+  const [predictionsOpen, setPredictionsOpen] = useState(false);
   const onChange = useCallback((e, data) => {
     setForm((prev) => ({
       ...prev,
@@ -22,19 +20,31 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
 
   return (
     <div className="h-full">
-      <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
-        Mijn voorspellingen
+      <div className="px-3 pb-3 pt-2 flex text-2xl justify-between align-middle sticky top-0 bg-background z-10 text-title">
+        <Link to="/home">
+          <Button className="text-accent">
+            <CgArrowLeftO />
+          </Button>
+        </Link>
       </div>
-      <div className="px-2 pb-5">
-        <form
-          className="flex flex-col space-y-2"
-          onSubmit={(e) => {
+      <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
+        Voorspellingen
+      </div>
+      <div className="px-2 pb-5 flex flex-col space-y-2">
+        <button
+          className="text-gray-500 font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10"
+          onClick={(e) => {
             e.preventDefault();
-            update(form, { onSuccess: () => history.push("/") });
+            setPredictionsOpen((prev) => !prev);
           }}
         >
-          {predictions &&
-            matches?.map((m) => (
+          Groepsfase
+        </button>
+        {predictions &&
+          predictionsOpen &&
+          matches
+            ?.filter((m) => Number(m.id) > 0)
+            .map((m) => (
               <MatchInput
                 key={m.id + "match"}
                 match={m}
@@ -43,26 +53,29 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
                 editable={m.canUpdatePrediction}
               />
             ))}
+        {predictionsOpen && (
           <div className="text-title font-bold text-xl px-3 pb-3 pt-2 flex justify-between align-middle sticky top-0 bg-background z-10">
             Varia
           </div>
-          {questions &&
-            predictions &&
-            questions.map((q) => (
-              <QuestionInput
-                key={q.id}
-                question={q}
-                prediction={predictions.find((p) => p.id === `question${q.id}`)}
-                editable={!!q.canUpdatePrediction}
-                onChange={onChange}
-              />
-            ))}
-          {/* <div className="flex justify-center">
-            <StyledButton className="mt-4" type="submit">
-              Opslaan
-            </StyledButton>
-          </div> */}
-        </form>
+        )}
+        {questions &&
+          predictions &&
+          predictionsOpen &&
+          questions.map((q) => (
+            <QuestionInput
+              key={q.id}
+              question={q}
+              prediction={predictions.find((p) => p.id === `question${q.id}`)}
+              editable={!!q.canUpdatePrediction}
+              onChange={onChange}
+            />
+          ))}
+        <KnockOut
+          matches={matches}
+          predictions={predictions}
+          onChange={onChange}
+          form={form}
+        />
       </div>
     </div>
   );
