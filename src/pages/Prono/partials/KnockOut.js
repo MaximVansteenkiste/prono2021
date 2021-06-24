@@ -135,7 +135,7 @@ const KnockOut = ({ matches, predictions }) => {
     },
     [myFinals, updateFinals]
   );
-console.log(predictions)
+  
   return (
     <form
       className="flex flex-col space-y-2"
