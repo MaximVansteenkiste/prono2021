@@ -29,10 +29,10 @@ const PronoContainer = () => {
     <Prono
       matches={matches.filter(
         (m) =>
-          m.id.charAt(0) !== "A" &&
-          m.id.charAt(0) !== "K" &&
-          m.id.charAt(0) !== "H" &&
-          m.id.charAt(0) !== "F"
+          m.id.charAt(0) === "A" ||
+          m.id.charAt(0) === "K" ||
+          m.id.charAt(0) === "H" ||
+          m.id.charAt(0) === "F"
       )}
       predictions={predictions}
       questions={questions}
