@@ -19,7 +19,12 @@ export const updateScores = async () => {
       let p = 0;
       if (!prediction.id.includes("question")) {
         //if (prediction?.points === "-1") {
-        if (prediction.id.startsWith("H") || prediction.id.startsWith("F")) {
+        if (
+          prediction.id.startsWith("H") ||
+          prediction.id.startsWith("F") ||
+          prediction.id.startsWith("K") ||
+          prediction.id.startsWith("A")
+        ) {
           const match = matches.find((m) => m.id === prediction.id);
           const outcomeHome = Number(match?.outcomeHome);
           const outcomeAway = Number(match?.outcomeAway);

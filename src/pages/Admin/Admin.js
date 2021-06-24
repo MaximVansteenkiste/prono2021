@@ -27,11 +27,11 @@ const Admin = () => {
           Update scores
         </StyledButton>
       </div>
-      <div className="flex justify-center mt-5">
+      {/* <div className="flex justify-center mt-5">
         <StyledButton className="mt-5" onClick={updateGroups}>
           Update groups
         </StyledButton>
-      </div>
+      </div> */}
     </div>
   );
 };
