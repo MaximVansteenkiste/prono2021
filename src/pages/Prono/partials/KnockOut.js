@@ -135,7 +135,7 @@ const KnockOut = ({ matches, predictions }) => {
     },
     [myFinals, updateFinals]
   );
-
+console.log(predictions)
   return (
     <form
       className="flex flex-col space-y-2"
@@ -188,7 +188,7 @@ const KnockOut = ({ matches, predictions }) => {
         <StyledButton
           className="mt-4"
           type="submit"
-          disabled={myFinals.length !== 15}
+          disabled={myFinals.length !== 15 || predictions?.length === 62}
         >
           Opslaan
         </StyledButton>
