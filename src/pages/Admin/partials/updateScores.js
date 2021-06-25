@@ -84,6 +84,7 @@ export const updateScores = async () => {
         .doc(prediction.id)
         .set({ points: p }, { merge: true });
     });
+    totalScore += Number(u.puntenGroep);
     console.log(`${u.username}: ${totalScore}p`);
     db.collection("users")
       .doc(u.id)
