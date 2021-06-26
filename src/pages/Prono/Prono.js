@@ -40,7 +40,7 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
             setPredictionsOpen((prev) => !prev);
           }}
         >
-          Groepsfase - {user.puntenGroep}p
+          Groepsfase (ranking: +{user.puntenGroep}p)
         </button>
         {predictions &&
           predictionsOpen &&
