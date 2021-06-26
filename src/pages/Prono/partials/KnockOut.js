@@ -135,7 +135,7 @@ const KnockOut = ({ matches, predictions }) => {
     },
     [myFinals, updateFinals]
   );
-  
+
   return (
     <form
       className="flex flex-col space-y-2"
@@ -184,7 +184,7 @@ const KnockOut = ({ matches, predictions }) => {
         currentEditCode={currentEditCode}
         setCurrentEditIndex={setCurrentEditIndex}
       />
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <StyledButton
           className="mt-4"
           type="submit"
@@ -192,7 +192,7 @@ const KnockOut = ({ matches, predictions }) => {
         >
           Opslaan
         </StyledButton>
-      </div>
+      </div> */}
     </form>
   );
 };

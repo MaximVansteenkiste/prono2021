@@ -9,7 +9,7 @@ const PronoContainer = () => {
   const { matches } = useMatches();
   const { questions } = useQuestions();
   const { predictions } = useMatchPredictions();
-  
+
   const defaultValues = useMemo(() => {
     let values = {};
     predictions?.forEach(({ id, answer, ...rest }) => {
@@ -27,13 +27,7 @@ const PronoContainer = () => {
 
   return (
     <Prono
-      matches={matches.filter(
-        (m) =>
-          m.id.charAt(0) === "A" ||
-          m.id.charAt(0) === "K" ||
-          m.id.charAt(0) === "H" ||
-          m.id.charAt(0) === "F"
-      )}
+      matches={matches}
       predictions={predictions}
       questions={questions}
       defaultValues={defaultValues}

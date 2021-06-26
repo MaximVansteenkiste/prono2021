@@ -5,9 +5,11 @@ import KnockOut from "./partials/KnockOut";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 import { CgArrowLeftO } from "react-icons/cg";
+import useUser from "../../hooks/useUser";
 
 const Prono = ({ predictions, matches, questions, defaultValues }) => {
   const [form, setForm] = useState(defaultValues);
+  const user = useUser();
   const [predictionsOpen, setPredictionsOpen] = useState(false);
   const onChange = useCallback((e, data) => {
     setForm((prev) => ({
@@ -38,7 +40,7 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
             setPredictionsOpen((prev) => !prev);
           }}
         >
-          Groepsfase
+          Groepsfase - {user.puntenGroep}p
         </button>
         {predictions &&
           predictionsOpen &&
@@ -71,7 +73,13 @@ const Prono = ({ predictions, matches, questions, defaultValues }) => {
             />
           ))}
         <KnockOut
-          matches={matches}
+          matches={matches.filter(
+            (m) =>
+              m.id.charAt(0) === "A" ||
+              m.id.charAt(0) === "K" ||
+              m.id.charAt(0) === "H" ||
+              m.id.charAt(0) === "F"
+          )}
           predictions={predictions}
           onChange={onChange}
           form={form}
