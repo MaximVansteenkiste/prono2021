@@ -18,16 +18,12 @@ const MatchInput = ({
 }) => {
   const showCheckbox = useMemo(
     () =>
-      (isKnockout &&
-        outcomeHome === outcomeAway &&
-        outcomeHome !== "-1" &&
-        outcomeAway !== "-1") ||
-      (prediction &&
-        isKnockout &&
-        prediction.outcomeHome === prediction.outcomeAway &&
-        prediction.outcomeHome !== "-1" &&
-        prediction.outcomeAway !== "-1"),
-    [isKnockout, outcomeAway, outcomeHome, prediction]
+      prediction &&
+      isKnockout &&
+      prediction.outcomeHome === prediction.outcomeAway &&
+      prediction.outcomeHome !== "-1" &&
+      prediction.outcomeAway !== "-1",
+    [isKnockout, prediction]
   );
 
   const onCheckBox = useCallback(

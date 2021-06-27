@@ -5,17 +5,10 @@ import useUser from "../useUser";
 const useMatchPredictions = () => {
   const user = useUser();
 
-  const { data, isLoading, error } = useQuery(
-    "predictions",
-    async () =>
-      querySnapshotToData(
-        await db
-          .collection("users")
-          .doc(user.uid)
-          .collection("predictions")
-          .get()
-      ),
-    { cacheTime: 1 }
+  const { data, isLoading, error } = useQuery("predictions", async () =>
+    querySnapshotToData(
+      await db.collection("users").doc(user.uid).collection("predictions").get()
+    )
   );
 
   return { predictions: data, isLoading, error };
