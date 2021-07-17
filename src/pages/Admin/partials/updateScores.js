@@ -85,6 +85,7 @@ export const updateScores = async () => {
         .set({ points: p }, { merge: true });
     });
     totalScore += Number(u.puntenGroep);
+    totalScore += Number(u.puntenBonus);
     console.log(`${u.username}: ${totalScore}p`);
     db.collection("users")
       .doc(u.id)
